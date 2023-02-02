@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+     <!-- <link src="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet"> -->
+    <style>
+        input{
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 3px;
+        }
+        
+    </style>
+</head>
+<body>  
+<div id="formdiv" style="display: flex;justify-content: center; background-color: white; ">
+    <div style="width: 500px; background-color:rgb(234,182,118); text-align: center; border: 5px solid white ; border-radius: 10px; padding-bottom: 30px;">
+    <form action="" id="form">
+    
+        <div style=" margin-bottom: 10px;">
+            <h1>Form</h1>
+        </div>
+        
+            <legend>Name</legend>
+            <input type="text" name="name" id="name" placeholder="Enter the name" required>
+            <br><br>
+            <legend>Email</legend>
+            <input type="email" required placeholder="abc@gmail.com" id="email">
+            <p id="errorEmail"></p>
+            
+            <legend >Phone Number</legend >
+            <input type="text" name="phone_number" id="pnumber" minlength="11"  maxlength="11" required placeholder="+92336310730">
+            <br><br>
+            <legend>Password</legend>
+            <input type="password" id="password" name="password" required placeholder="password" style="margin-right: 10px;">
+            <span class="fa fa-eye" id="show_password" style="margin-left: -35px;color:brown; cursor: pointer;"></span>
+
+            <p id="message">Choose strong password for better integrity </p>
+            <p id="message2"></p>
+            <!-- <input type="checkbox" name="show_password" id="check">Show Password <br> -->
+            
+            <legend>CNIC</legend>
+            <input type="text" name="cnic" id="cnic" placeholder="35201-3142725-1"><br>
+            <br>
+            <legend>Address</legend>
+            <input type="text" name="address" required id="address" placeholder="1133Michigan  United States ">
+            <br><br>
+            <legend>Check the pointer once you filled the form</legend>
+            <input type="checkbox" name="checkbox" id="" required>
+            <button style="color: brown; ">Submit</button>
+    </form>
+    </div>
+</div>
+    
+</body>
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+<script>
+//Email
+$(document).ready(function () {
+    $('#check').click(function(){
+                $(this).is(':checked') ? $('#password').attr('type', 'text') : $('#password').attr('type', 'password');
+            });
+
+    // <span class=" fa fa-eye"  id="check"  style="margin-left: -30px; cursor: pointer;color: brown;"></span>
+    // $(document).ready(function(){
+       
+        // });
+ 
+//  $("#form").validate({
+//     //  rules: {
+       
+//     //      name: "required",
+//     //      address:"required",
+//     //      mobileno:{
+//     //       required: true,
+//     //          minlength: 11,
+// 	// 	  maxlength: 11,
+//     //      },
+//     //      password: {
+//     //       required:true,
+//     //         minlength: 8,
+//     //         maxlength:20
+//     //     },
+//     //      cnic: {
+//     //          required: true,
+//     //          minlength: 15,
+//     //          maxlength:15
+//     //      },
+//     //      email: {
+//     //          required: true,
+//     //          email: true
+//     //      },
+
+//     //  },
+//      messages: {
+//          name: " Please enter your name",
+//          address:" please enter your address",
+//          mobileno:{
+//           required:"please enter mobile number",
+//          minlength:"your number must consist of at least 11 characters"
+//          },
+//          cnic: {
+//              required: " Please enter a cnic",
+//              minlength: " Your cnic must consist of at least 13 characters"
+//          },
+
+//      }
+//  });
+});
+//show password by eye
+$(document).ready(function () {
+    $(function () {
+            $("#show_password").click(function () {
+                $(this).toggleClass("fa-eye fa-eye-slash");
+               var type = $(this).hasClass("fa-eye-slash") ? "text" : "password";
+                $("#password").attr("type", type);
+            });
+        });
+
+  })
+
+
+
+jQuery("#password").keyup(function(e){
+    //let password = $("#password").val();
+    // let password="hello world";
+    // console.log(password)
+    if (!(/^(?=.[a-z])(?=.[A-Z])(?=.[0-9])(?=.[@#$%&])(.{8,20}$)/.test(password))) {
+        return false;
+    }
+    return true;
+}, function (value, element) {
+    let password = $("#password").val();
+    //alert(password);
+    if (!(/^(.{8,20}$)/.test(password))) {
+       // return 'length inappropriate';
+       $("#message").text( 'length inappropriate');
+    }
+    else if (!(/^(?=.*[A-Z])/.test(password))) {
+        //return 'Password must contain at least one uppercase.';
+        $("#message").text('Password must contain at least one uppercase.');
+        $("#message2").html("<strong>Weak</strong>")
+    }
+    else if (!(/^(?=.*[a-z])/.test(password))) {
+        $("#message").text( 'Password must contain at least one lowercase.');
+        $("#message2").html("<strong>Weak</strong>")
+    }
+    else if (!(/^(?=.*[0-9])/.test(password))) {
+        $("#message").text('Password must contain at least one digit.');
+        $("#message2").html("<strong>Weak</strong>");
+    }
+    else if (!(/^(?=.*[@#$%&])/.test(password))) {
+        $("#message").text( "Password must contain special characters from @#$%&.");
+        $("#message2").html("<strong>Weak</strong>");
+    }
+    else if((/^(.{8,20}$)/.test(password))||(/^(?=.*[@#$%&])/.test(password)) ||(/^(?=.*[a-z])/.test(password)) ||(/^(?=.*[A-Z])/.test(password)) ){
+        $("#message").text("Done");
+        $("#message2").text("Strong");
+    }
+    return false;
+});
+//show password
+
+
+        
+// $(document).ready(function(){
+//             $('#check').click(function(){
+//                 $(this).is(':checked') ? $('#password').attr('type', 'text') : $('#password').attr('type', 'password');
+//             });
+//         });
+    
+ 
+//cnic
+$("#cnic").keyup(function(e){
+		var cnic = jQuery("#cnic").val();
+		
+		if(e.keyCode == 8 && (cnic.length == 5 || cnic.length == 13) ) {
+			return true;
+		}
+		if(cnic.length == 5) {
+			jQuery("#cnic").val(cnic+'-');
+		}
+		if(cnic.length == 13) {
+			jQuery("#cnic").val(cnic+'-');
+		}
+        var regExp = /[a-z]/i;
+  $('#cnic').on('keydown keyup', function(e) {
+    var value = String.fromCharCode(e.which) || e.key;
+
+    // No letters
+    if (regExp.test(value)) {
+      e.preventDefault();
+      return false;
+    }
+  });
+});
+
+
+//         $("#test3").val("Dolly Duck");
+
+
+
+// function limitText(field, maxChar){
+//     $("#pnumber").attr('maxlength',maxChar);
+// }
+// $.validator.addMethod('keyup', function (value, element) {
+//     let password = value;
+//     if (!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%&])(.{8,20}$)/.test(password))) {
+//         return false;
+//     }
+//     return true;
+// }, function (value, element) {
+//     let password = $("#password").val();
+//     if (!(/^(.{8,20}$)/.test(password))) {
+//         $("#password").keyup(function(){
+//     $("#message").text("Very Weak");
+//   });
+//          $("#message").text("very weak");
+//     }
+//     else if (!(/^(?=.*[A-Z])/.test(password))) {
+//         return 'Password must contain at least one uppercase.';
+//     }
+//     else if (!(/^(?=.*[a-z])/.test(password))) {
+//         return 'Password must contain at least one lowercase.';
+//     }
+//     else if (!(/^(?=.*[0-9])/.test(password))) {
+//         return 'Password must contain at least one digit.';
+//     }
+//     else if (!(/^(?=.*[@#$%&])/.test(password))) {
+//         return "Password must contain special characters from @#$%&.";
+//     }
+//     return false;
+// });
+
+
+
+
+</script>
+</html>
